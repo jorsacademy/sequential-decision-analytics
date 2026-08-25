@@ -14,7 +14,7 @@ The examples emphasize a common sequential structure:
 4. update knowledge or move to a new state,
 5. use the new information in subsequent decisions.
 
-The repository begins with multi-armed bandits and then extends to a finite-horizon stochastic control problem. This makes it possible to connect learning, optimization, dynamic programming, Operations Research, and Reinforcement Learning within one small teaching repository.
+The repository begins with multi-armed bandits and then extends to stochastic control, Markov Decision Processes, dynamic programming, and model-free Reinforcement Learning. This makes it possible to connect learning, optimization, Operations Research, and Reinforcement Learning within one small teaching repository.
 
 ## Topics
 
@@ -31,6 +31,12 @@ The repository begins with multi-armed bandits and then extends to a finite-hori
 - Regret and policy comparison
 - Finite-horizon stochastic optimization
 - Dynamic programming and backward induction
+- Markov Decision Processes
+- Bellman optimality equations
+- Value iteration
+- Tabular Q-learning
+- Temporal-difference learning
+- Model-based versus model-free decision making
 - Policy evaluation by simulation
 
 ## Repository Structure
@@ -47,7 +53,9 @@ sequential-decision-analytics/
     ├── ucb_bandit.py
     ├── thompson_sampling_bandit.py
     ├── compare_bandit_policies.py
-    └── finite_horizon_inventory_control.py
+    ├── finite_horizon_inventory_control.py
+    ├── mdp_value_iteration.py
+    └── q_learning_gridworld.py
 ```
 
 ## Example 1: Epsilon-Greedy Multi-Armed Bandit
@@ -68,8 +76,6 @@ The selected arm is updated using the incremental sample mean:
 Q_n = Q_(n-1) + (R_n - Q_(n-1)) / n
 ```
 
-This is the simplest example in the repository and is intended to introduce the decision-observation-learning cycle.
-
 Run:
 
 ```bash
@@ -80,13 +86,9 @@ python examples/epsilon_greedy_bandit.py
 
 The UCB example replaces random exploration with an explicit uncertainty bonus. An arm can be attractive because its estimated reward is high or because it has not yet been sampled enough.
 
-The index is based on the form:
-
 ```text
 UCB(a) = Q(a) + sqrt(c * log(t) / N(a))
 ```
-
-This example introduces optimism under uncertainty and shows a more structured alternative to epsilon-greedy exploration.
 
 Run:
 
@@ -98,8 +100,6 @@ python examples/ucb_bandit.py
 
 The Thompson Sampling example provides a Bayesian approach to sequential learning. Each Bernoulli arm has a Beta posterior distribution. The policy samples one plausible reward probability from each posterior and selects the arm with the largest sampled value.
 
-Observed successes and failures update the posterior distributions, so exploration emerges naturally from posterior uncertainty.
-
 Run:
 
 ```bash
@@ -108,14 +108,7 @@ python examples/thompson_sampling_bandit.py
 
 ## Example 4: Comparing Bandit Policies
 
-A single stochastic simulation can give a misleading impression of algorithm quality. The comparison example therefore evaluates epsilon-greedy, UCB, and Thompson Sampling over many independent replications.
-
-It plots:
-
-- average cumulative reward,
-- average pseudo-regret.
-
-Pseudo-regret measures performance relative to an oracle that always chooses the arm with the highest expected reward.
+The comparison example evaluates epsilon-greedy, UCB, and Thompson Sampling over many independent replications. It plots average cumulative reward and average pseudo-regret.
 
 Run:
 
@@ -125,29 +118,61 @@ python examples/compare_bandit_policies.py
 
 ## Example 5: Finite-Horizon Inventory Control
 
-The inventory example extends the repository beyond bandits and introduces a more explicit sequential optimization model.
+The inventory example introduces explicit state, action, uncertainty, transition, and downstream value.
 
-The elements are:
-
-- **State**: current inventory,
-- **Action**: order quantity,
-- **Uncertainty**: random demand,
-- **Transition**: ending inventory,
-- **Contribution**: sales revenue minus ordering, holding, and stockout costs,
-- **Objective**: maximize expected total profit over a finite horizon.
-
-The model is solved by backward induction using the Bellman recursion:
+The Bellman recursion is:
 
 ```text
 V_t(s) = max_a E[C_t(s, a, W) + V_(t+1)(S')]
 ```
 
-This example demonstrates that a sequential decision is evaluated not only by its immediate contribution but also by its effect on future states and future decisions.
-
 Run:
 
 ```bash
 python examples/finite_horizon_inventory_control.py
+```
+
+## Example 6: Markov Decision Process and Value Iteration
+
+The grid-world MDP introduces an infinite-horizon discounted control problem with a known transition model.
+
+The decision-maker knows how each action changes the state and uses the Bellman optimality equation to compute the optimal value function:
+
+```text
+V*(s) = max_a [R(s,a) + gamma * V*(s')]
+```
+
+The code uses value iteration until the value function converges and then extracts a greedy optimal policy.
+
+This example provides the bridge from finite-horizon dynamic programming to stationary Markov Decision Processes.
+
+Run:
+
+```bash
+python examples/mdp_value_iteration.py
+```
+
+## Example 7: Q-Learning in the Same Grid World
+
+The Q-learning example uses the same basic grid-world structure but removes the assumption that the transition model must be used by the learning algorithm.
+
+The action-value update is:
+
+```text
+Q(s,a) <- Q(s,a) + alpha * [r + gamma * max_a' Q(s',a') - Q(s,a)]
+```
+
+The agent learns by interacting with the environment, using epsilon-greedy exploration and temporal-difference updates.
+
+This creates a direct teaching comparison:
+
+- value iteration: model-based dynamic programming,
+- Q-learning: model-free Reinforcement Learning.
+
+Run:
+
+```bash
+python examples/q_learning_gridworld.py
 ```
 
 ## Suggested Teaching Sequence
@@ -158,9 +183,31 @@ A useful classroom sequence is:
 2. UCB: optimism under uncertainty,
 3. Thompson Sampling: Bayesian exploration,
 4. bandit comparison: cumulative reward, regret, and repeated experiments,
-5. inventory control: state transitions, Bellman recursion, and dynamic programming.
+5. inventory control: state transitions, Bellman recursion, and finite-horizon dynamic programming,
+6. MDP value iteration: stationary state-action models and Bellman optimality,
+7. Q-learning: model-free temporal-difference learning.
 
-The conceptual notes in `docs/SDA_CONCEPTS.md` summarize the mathematical role of each example.
+This sequence provides a compact path from Sequential Decision Analytics to Operations Research and Reinforcement Learning.
+
+## Model-Based and Model-Free Perspective
+
+The examples can also be organized by what the decision-maker knows.
+
+### Model-based methods
+
+- finite-horizon inventory control,
+- MDP value iteration.
+
+These methods use an explicit model of transitions or uncertainty distributions when evaluating decisions.
+
+### Learning-oriented or model-free methods
+
+- epsilon-greedy bandits,
+- UCB,
+- Thompson Sampling,
+- Q-learning.
+
+These methods learn decision-relevant quantities from observations or interaction.
 
 ## Visualizations
 
@@ -171,7 +218,9 @@ The repository includes visualizations for:
 - true versus estimated reward probabilities,
 - posterior mean probabilities,
 - comparisons of cumulative reward and regret across policies,
-- finite-horizon optimal inventory policies.
+- finite-horizon optimal inventory policies,
+- optimal MDP state values,
+- Q-learning returns and episode lengths.
 
 ## Reproducibility
 
