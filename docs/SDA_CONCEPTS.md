@@ -98,6 +98,79 @@ V_t(s) = max_a E[C_t(s, a, W) + V_(t+1)(S')]
 
 This demonstrates an important SDA principle that is not visible in a simple bandit: a current decision can affect both immediate contribution and future decision opportunities.
 
+## 6. Markov Decision Processes and Value Iteration
+
+A Markov Decision Process (MDP) makes the state-transition structure explicit. The Markov property means that the current state contains the information required to evaluate future evolution under an action.
+
+For a discounted infinite-horizon problem, the Bellman optimality equation is
+
+```text
+V*(s) = max_a E[R(s,a,S') + gamma * V*(S')]
+```
+
+The grid-world example uses deterministic transitions, so the expectation reduces to a single next state:
+
+```text
+V*(s) = max_a [R(s,a) + gamma * V*(s')]
+```
+
+Value iteration repeatedly applies the Bellman optimality operator until the value function converges. A greedy policy is then extracted from the converged value function.
+
+This example is model-based because the transition and reward model are known and used directly by the algorithm.
+
+## 7. Q-Learning
+
+Q-learning solves a related sequential decision problem without requiring the algorithm to use a transition model.
+
+The learned quantity is the optimal action-value function `Q*(s,a)`. After observing a transition `(s, a, r, s')`, the tabular update is
+
+```text
+Q(s,a) <- Q(s,a) + alpha * [r + gamma * max_a' Q(s',a') - Q(s,a)]
+```
+
+The expression in brackets is a temporal-difference error. It compares the current estimate with a one-step bootstrap target.
+
+The grid-world implementation uses epsilon-greedy exploration during learning. Over repeated episodes, the Q-table becomes sufficient to define a greedy policy.
+
+This creates a useful contrast with value iteration:
+
+- **Value iteration** knows and uses the transition model.
+- **Q-learning** learns action values from sampled interaction.
+
+Both methods seek an optimal policy, but they obtain decision-relevant information in different ways.
+
+## A Useful SDA Taxonomy
+
+The examples in this repository can be viewed along two dimensions.
+
+### Learning versus known-model optimization
+
+Learning-oriented examples:
+
+- epsilon-greedy,
+- UCB,
+- Thompson Sampling,
+- Q-learning.
+
+Known-model optimization examples:
+
+- finite-horizon inventory control,
+- MDP value iteration.
+
+### Minimal state versus explicit dynamic state
+
+Minimal-state examples:
+
+- stationary multi-armed bandits.
+
+Explicit dynamic-state examples:
+
+- inventory control,
+- grid-world MDP,
+- Q-learning grid world.
+
+This distinction helps show that Sequential Decision Analytics is broader than either classical dynamic programming or Reinforcement Learning alone.
+
 ## Suggested Teaching Sequence
 
 1. Start with epsilon-greedy to introduce sequential learning.
@@ -105,5 +178,7 @@ This demonstrates an important SDA principle that is not visible in a simple ban
 3. Introduce Thompson Sampling to show Bayesian exploration.
 4. Compare the three methods using average cumulative reward and regret.
 5. Move to finite-horizon inventory control to introduce state transitions and dynamic programming.
+6. Introduce MDP value iteration to formalize stationary Bellman optimality.
+7. Introduce Q-learning to show how similar decision logic can be learned without a known transition model.
 
 This sequence connects Optimization, Operations Research, and Reinforcement Learning without requiring a large application-specific model.
