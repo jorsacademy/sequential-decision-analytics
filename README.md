@@ -209,6 +209,25 @@ Run:
 python examples/q_learning_gridworld.py
 ```
 
+
+## Deep Learning Project Suite for Industrial Engineering
+
+A separate project suite extends the repository from classical sequential decision analytics into neural sequence models, graph neural networks, and deep reinforcement learning. The examples avoid image-processing and quality-control use cases and focus on forecasting, networks, and dynamic resource decisions.
+
+The suite is under [`projects/deep_learning_ie/`](projects/deep_learning_ie/README.md):
+
+- **GRU vs Transformer multi-horizon demand forecasting** — compares recurrent and attention-based sequence models using both predictive error and an asymmetric inventory-cost proxy.
+- **Temporal GNN for supply-network delay propagation** — combines graph message passing with temporal recurrence to predict how congestion and disruptions propagate through a directed supply network.
+- **Constrained PPO for production-inventory control** — demonstrates actor-critic deep RL, PPO clipping, generalized advantage estimation, and Lagrangian shortage control.
+
+Install the additional dependency set with:
+
+```bash
+pip install -r projects/deep_learning_ie/requirements.txt
+```
+
+These projects are deliberately decision-oriented: model quality is connected to replenishment cost, network delay, or service constraints rather than treated as prediction accuracy alone.
+
 ## Suggested Teaching Sequence
 
 A useful classroom sequence is:
