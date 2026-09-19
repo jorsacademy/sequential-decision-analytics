@@ -18,6 +18,12 @@ The repository begins with multi-armed bandits and then extends to stochastic co
 
 ## Topics
 
+- Static decision making under uncertainty
+- Decision matrices and state-of-nature models
+- Expected value and outcome risk
+- Monte Carlo validation
+- Expected Value of Perfect Information (EVPI)
+- Probability sensitivity and decision stability
 - Sequential decision making
 - State, action, uncertainty, transition, and reward
 - Exploration versus exploitation
@@ -48,7 +54,10 @@ sequential-decision-analytics/
 ├── requirements.txt
 ├── docs/
 │   └── SDA_CONCEPTS.md
+├── tests/
+│   └── test_static_decision_analysis.py
 └── examples/
+    ├── static_decision_under_uncertainty.py
     ├── epsilon_greedy_bandit.py
     ├── ucb_bandit.py
     ├── thompson_sampling_bandit.py
@@ -57,6 +66,31 @@ sequential-decision-analytics/
     ├── mdp_value_iteration.py
     └── q_learning_gridworld.py
 ```
+
+## Example 0: Static Decision Analysis Under Uncertainty
+
+Before introducing sequential learning, this example establishes the one-shot decision-analysis baseline: a decision-maker chooses among alternatives while the state of nature is uncertain but its probability distribution is known.
+
+The example computes:
+
+- expected value for each alternative;
+- probability-weighted outcome standard deviation;
+- Monte Carlo outcome distributions;
+- Expected Value of Perfect Information (EVPI);
+- probability sensitivity while preserving a valid probability vector;
+- decision stability across sensitivity scenarios.
+
+The generic model supports both benefit maximization and cost minimization. A four-alternative investment example is included only as an illustrative payoff matrix; the core class is not finance-specific.
+
+A key methodological distinction is made in the sensitivity output: the share of perturbed scenarios in which an alternative remains preferred is a **decision-stability diagnostic**, not a statistical confidence level.
+
+Run:
+
+```bash
+python examples/static_decision_under_uncertainty.py
+```
+
+This example provides the static baseline for the rest of the repository. The later examples add repeated decisions, learning, state transitions, and dynamic value.
 
 ## Example 1: Epsilon-Greedy Multi-Armed Bandit
 
@@ -179,6 +213,7 @@ python examples/q_learning_gridworld.py
 
 A useful classroom sequence is:
 
+0. static decision analysis: alternatives, states of nature, expected value, risk, EVPI, and sensitivity,
 1. epsilon-greedy: basic sequential learning and exploration versus exploitation,
 2. UCB: optimism under uncertainty,
 3. Thompson Sampling: Bayesian exploration,
@@ -195,6 +230,7 @@ The examples can also be organized by what the decision-maker knows.
 
 ### Model-based methods
 
+- static decision analysis under known state probabilities,
 - finite-horizon inventory control,
 - MDP value iteration.
 
@@ -213,6 +249,7 @@ These methods learn decision-relevant quantities from observations or interactio
 
 The repository includes visualizations for:
 
+- simulated outcome distributions for static decision alternatives,
 - cumulative reward over decision rounds,
 - arm selection frequencies,
 - true versus estimated reward probabilities,
@@ -231,6 +268,14 @@ The examples use NumPy random generators with configurable random seeds. Fixed s
 ```bash
 pip install -r requirements.txt
 ```
+
+## Testing
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+GitHub Actions runs the regression suite and executes the static decision example with a non-interactive Matplotlib backend.
 
 ## Educational Scope
 
