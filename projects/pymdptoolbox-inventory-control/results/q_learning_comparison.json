@@ -1,0 +1,112 @@
+{
+  "updates_per_training_seed": 200000,
+  "evaluation_seed": 10000,
+  "episodes": 100,
+  "periods": 200,
+  "policies": {
+    "value_iteration": [
+      4,
+      3,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "policy_iteration": [
+      4,
+      3,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "tuned_base_stock": [
+      4,
+      3,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "q_learning_seed_42": [
+      4,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      6
+    ],
+    "q_learning_seed_43": [
+      3,
+      2,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      2
+    ],
+    "q_learning_seed_44": [
+      3,
+      2,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      4
+    ]
+  },
+  "metrics": {
+    "value_iteration": {
+      "mean_period_cost": 3.03734,
+      "period_cost_standard_error": 0.01226178443684919,
+      "fill_rate": 0.9654730171503294,
+      "discounted_cost_from_empty": 63.18472966433613
+    },
+    "policy_iteration": {
+      "mean_period_cost": 3.03734,
+      "period_cost_standard_error": 0.01226178443684919,
+      "fill_rate": 0.9654730171503294,
+      "discounted_cost_from_empty": 63.18472966433613
+    },
+    "tuned_base_stock": {
+      "mean_period_cost": 3.03734,
+      "period_cost_standard_error": 0.01226178443684919,
+      "fill_rate": 0.9654730171503294,
+      "discounted_cost_from_empty": 63.18472966433613
+    },
+    "q_learning_seed_42": {
+      "mean_period_cost": 3.074979999999998,
+      "period_cost_standard_error": 0.01526049882023596,
+      "fill_rate": 0.930392797867525,
+      "discounted_cost_from_empty": 63.587132778761095
+    },
+    "q_learning_seed_43": {
+      "mean_period_cost": 3.0682599999999978,
+      "period_cost_standard_error": 0.015552106096616076,
+      "fill_rate": 0.9341145702358798,
+      "discounted_cost_from_empty": 63.59747460142656
+    },
+    "q_learning_seed_44": {
+      "mean_period_cost": 3.0888699999999973,
+      "period_cost_standard_error": 0.017194071417764613,
+      "fill_rate": 0.9163104159332093,
+      "discounted_cost_from_empty": 63.789895139370074
+    }
+  }
+}

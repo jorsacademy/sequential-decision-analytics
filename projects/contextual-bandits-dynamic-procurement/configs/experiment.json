@@ -1,0 +1,40 @@
+{
+  "problem": "contextual_supplier_selection",
+  "status": "feature_complete",
+  "train_seeds": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+  "nominal_final": {
+    "seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109],
+    "horizon": 400,
+    "regime_shift": false
+  },
+  "supplier_regime_shift": {
+    "seeds": [200, 201, 202, 203, 204, 205, 206, 207, 208, 209],
+    "horizon": 400,
+    "regime_shift": true,
+    "shift_fraction": 0.5
+  },
+  "policies": [
+    "random",
+    "static_best_train",
+    "epsilon_greedy",
+    "linucb",
+    "discounted_linucb",
+    "linear_thompson"
+  ],
+  "primary_metric": "cumulative_pseudo_regret",
+  "secondary_metrics": [
+    "mean_realized_cost",
+    "service_failure_rate",
+    "pre_shift_regret",
+    "post_shift_regret",
+    "supplier_selection_share",
+    "mean_decision_latency_ms"
+  ],
+  "inference": {
+    "paired_reference": "static_best_train",
+    "bootstrap_confidence": 0.95,
+    "bootstrap_samples": 4000,
+    "sign_test": "exact_two_sided"
+  },
+  "selection_rule": "Training seeds may define the static comparator. Nominal-final and regime-shift seeds are evaluation-only and are never used for policy tuning."
+}

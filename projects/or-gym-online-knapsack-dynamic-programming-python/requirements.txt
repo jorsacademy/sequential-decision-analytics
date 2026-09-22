@@ -1,0 +1,4 @@
+numpy>=1.24
+scipy>=1.11
+gymnasium>=1.2.0
+or-gymnasium @ git+https://github.com/JGIoA/or-gymnasium.git@86ed6e7b5d9c12e9f7767073b58f9ba814ac4f9a
