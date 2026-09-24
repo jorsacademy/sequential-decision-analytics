@@ -1,5 +1,22 @@
 # Sequential Decision Analytics
 
+<!-- portfolio-umbrella:start -->
+## Portfolio role
+
+This repository is the primary umbrella repository for this Jors Academy research area. Related projects have been consolidated under `projects/` so the methods, implementations, experiments, and case studies can be maintained and explored from one place.
+
+### Included projects
+
+- [`approximate-dynamic-programming-fleet-inventory`](projects/approximate-dynamic-programming-fleet-inventory/)
+- [`contextual-bandits-dynamic-procurement`](projects/contextual-bandits-dynamic-procurement/)
+- [`event-driven-continuous-reoptimization`](projects/event-driven-continuous-reoptimization/)
+- [`or-gym-online-knapsack-dynamic-programming-python`](projects/or-gym-online-knapsack-dynamic-programming-python/)
+- [`pymdptoolbox-inventory-control`](projects/pymdptoolbox-inventory-control/)
+- [`sequential-decision-analytics-policy-classes`](projects/sequential-decision-analytics-policy-classes/)
+
+Each consolidated project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. The snapshot preserves the source repository's default-branch files at consolidation time; repository-level history and metadata remain separate from the snapshot.
+<!-- portfolio-umbrella:end -->
+
 Educational implementations of sequential decision-making algorithms for courses in Optimization, Operations Research, and Reinforcement Learning.
 
 ## Purpose
